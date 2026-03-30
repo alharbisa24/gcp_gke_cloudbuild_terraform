@@ -1,0 +1,23 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
+steps:
+# 1. Build FastAPI image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/demo-repository/fastapi:$COMMIT_SHA', '.']
+
+# 2. Push image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/demo-repository/fastapi:$COMMIT_SHA']
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud container clusters get-credentials demo-cluster --zone us-central1-a --project $PROJECT_ID
+      kubectl apply -f k8s/deployment.yaml
+      kubectl apply -f k8s/fastapi-service.yaml
+      kubectl apply -f k8s/fastapi-servicemonitor.yaml
+      kubectl get svc
+
