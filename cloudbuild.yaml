@@ -16,9 +16,7 @@ steps:
   # args:
   #   - '-c'
   #   - |
-  #     gcloud container clusters get-credentials demo-cluster --zone us-central1-a --project $PROJECT_ID
   #     kubectl apply -f k8s/deployment.yaml
   #     kubectl apply -f k8s/fastapi-service.yaml
   #     kubectl apply -f k8s/fastapi-servicemonitor.yaml
-  #     kubectl get svc
 
