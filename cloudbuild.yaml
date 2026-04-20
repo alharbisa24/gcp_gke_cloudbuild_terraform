@@ -11,12 +11,9 @@ steps:
   args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/demo-repository/fastapi:$COMMIT_SHA']
 
 
-  - name: 'gcr.io/cloud-builders/kubectl'
+- name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      kubectl apply -f k8s/deployment.yaml
-      kubectl apply -f k8s/fastapi-service.yaml
-      kubectl apply -f k8s/fastapi-servicemonitor.yaml
-
+      kubectl apply -k k8s/
